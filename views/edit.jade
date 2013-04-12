@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	h1= title
+		form(action='/create',method='post')
+			input(type='text', name='content')
+  
+	- if (todos.length)
+		- todos.forEach(function(todo){
+			- if (todo._id == current)
+				form(method="post", action="/update/#{todo._id}")
+					input(type="text", name='content', value="#{todo.content}")
+			- else
+				a(href="/edit/#{todo._id}", title="update this todo item")= todo.content
+			a(href='/destroy/#{todo._id}', title='Delete this todo item') Delete
+				br
+		- })

@@ -3,6 +3,8 @@
  * Module dependencies.
  */
 
+ // 注意排序
+
 var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
@@ -30,11 +32,17 @@ if ('development' == app.get('env')) {
 }
 
 var routes = require('./routes')
-
+//RESTful resource
 app.get('/', routes.index);
+// app.get('/show', routes.show);
+// app.get('/new', routes.new);
+app.post('/create', routes.create);
+app.get('/edit/:id', routes.edit);
+app.post('/update/:id', routes.update);
+app.get('/destroy/:id', routes.destroy);
+
 app.get('/users', user.list);
 app.get('/users/:number', user.one);
-app.post('/create', routes.create);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
