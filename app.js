@@ -13,6 +13,7 @@ var express = require('express')
 var app = module.exports = express();
 
 require('./db');
+var routes = require('./routes')
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -21,7 +22,9 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
 app.use(express.bodyParser());
+app.use(routes.current_user);
 // app.use(express.methodOverride());
 app.use(app.router);
 
@@ -31,7 +34,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-var routes = require('./routes')
 //RESTful resource
 app.get('/', routes.index);
 // app.get('/show', routes.show);

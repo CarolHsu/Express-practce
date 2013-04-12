@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Todo = mongoose.model('Todo');
+var utils = require('connect').utils;
 
 exports.index = function(req, res){
 	Todo.find().sort('-updated_at').exec(function(err, todos, count){
@@ -56,3 +57,12 @@ exports.destroy = function(req, res){
 	});
 };
 
+
+// Notice: express will turn cookie key to uppercase!
+exports.current_user = function(req, res, next){
+	if(!req.cookies.user_id){
+		res.cookie('user_id', utils.uid(32));
+	}
+
+	next();
+};
